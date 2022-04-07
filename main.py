@@ -4,6 +4,7 @@ from appium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
+import time
 
 test_data_dictionary = {"loan": [100000, 325000, 450000, 99000000, 50000],
                         "interest": [9.0, 9.5, 11.0, 10.0, 12.0],
@@ -89,20 +90,13 @@ def send_test_data_and_check_result():
     years_input_field = driver.find_element(by=By.ID, value="com.continuum.emi.calculator:id/etYears")
     processing_fee_input_field = driver.find_element(by=By.ID, value="com.continuum.emi.calculator:id/etFee")
     calculate_button = driver.find_element(by=By.ID, value="com.continuum.emi.calculator:id/btnCalculate")
+    reset_button = driver.find_element(by=By.ID, value="com.continuum.emi.calculator:id/btnReset")
 
     for index in range(len(test_data_dictionary["loan"])):
-        amount_input_field.clear()
         amount_input_field.send_keys("{}".format(test_data_dictionary["loan"][index]))
-
-        interest_input_field.clear()
         interest_input_field.send_keys("{}".format(test_data_dictionary["interest"][index]))
-
-        years_input_field.clear()
         years_input_field.send_keys("{}".format(test_data_dictionary["period"][index]))
-
-        processing_fee_input_field.clear()
         processing_fee_input_field.send_keys("{}".format(test_data_dictionary["pFee"][index]))
-
         calculate_button.click()
 
         monthly_emi_result = driver.find_element(by=By.ID, value="com.continuum.emi.calculator:id/monthly_emi_result")
@@ -150,10 +144,13 @@ def send_test_data_and_check_result():
         if test_case_fail == "false":
             result_file.write("# Results are correct for test data %d\r\n" % (index+1))
 
+        reset_button.click()
+
 
 android_id, android_version = get_device_info()
 driver = create_driver_for_device(android_id, android_version)
 send_test_data_and_check_result()
 result_file.close()
+time.sleep(1)
 tear_down()
 
