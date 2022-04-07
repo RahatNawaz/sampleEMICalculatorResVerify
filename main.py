@@ -45,7 +45,7 @@ def create_driver_for_device(platform_id, platform_version):
     caps["appium:platformVersion"] = "{}".format(platform_version)
     caps["appium:udid"] = platform_id
     caps["appium:automationName"] = "UiAutomator2"
-    caps["appium:app"] = "C:/Users/Asus/PycharmProjects/pythonAssess/app/emi-calculator.apk"
+    caps["appium:app"] = "app/emi-calculator.apk"
     caps["appium:ensureWebviewsHavePages"] = True
     caps["appium:nativeWebScreenshot"] = True
     caps["appium:newCommandTimeout"] = 3600
